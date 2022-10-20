@@ -131,11 +131,11 @@ public class Book {
 	
 	@Override
 	public String toString() {
-		return "Book [name=" + name + ", dob=" + dob + ", registrationId=" + registrationId + ", gender=" + gender
+		return "name=" + name + ", dob=" + dob + ", registrationId=" + registrationId + ", gender=" + gender
 				+ ", registrationCouncil=" + registrationCouncil + ", latestQualification=" + latestQualification
 				+ ", university=" + university + ", degreeYear=" + degreeYear + ", systemOfMedicine=" + systemOfMedicine
 				+ ", registrationDate=" + registrationDate + ", registrationExpiry=" + registrationExpiry + ", issuer="
-				+ issuer + ", issuanceDate=" + issuanceDate + "]";
+				+ issuer + ", issuanceDate=" + issuanceDate;
 	}
 	
 }

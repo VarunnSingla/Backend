@@ -20,13 +20,13 @@ import com.javainuse.model.RequestTable;
 
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
-	
+
 	@Autowired
 	private UserDao userDao;
 
 	@Autowired
 	private PasswordEncoder bcryptEncoder;
-	
+
 	@Autowired
 	private User1Dao user1Dao;
 
@@ -39,7 +39,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
 				new ArrayList<>());
 	}
-	
+
 	public DAOUser save(UserDTO user) {
 		DAOUser newUser = new DAOUser();
 		newUser.setUsername(user.getUsername());
@@ -47,45 +47,29 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newUser.setDob(user.getDob());
 		return userDao.save(newUser);
 	}
-	
-	
-	
 
-
-	public RequestTable saveUser(Book book) {
+	public RequestTable saveUser(BookTable bookTable, String requestpayload) {
 		RequestTable newuser = new RequestTable();
-		newuser.setName(book.getName());
-		newuser.setDob(book.getDob());
-		newuser.setRegistrationId(book.getRegistrationId());
-		newuser.setGender(book.getGender());
-		newuser.setRegistrationCouncil(book.getRegistrationCouncil());
-		newuser.setLatestQualification(book.getLatestQualification());
-		newuser.setUniversity(book.getUniversity());
-		newuser.setDegreeYear(book.getDegreeYear());
-		newuser.setSystemOfMedicine(book.getSystemOfMedicine());
-		newuser.setRegistrationDate(book.getRegistrationDate());
-		newuser.setIssuer(book.getIssuer());
-		newuser.setIssuanceDate(book.getIssuanceDate());
-//		newuser.setTransactionId(bookTable.getTransactionId());
-		user1Dao.save(newuser);
-		return newuser;
-	}
-	
-	public RequestTable saveUser(BookTable bookTable) {
-		RequestTable newuser = new RequestTable();
+//		newuser.setRequestPayload(bookTable.getRequestPayload());
+		newuser.setName(null);
+		newuser.setStatus(null);
+		newuser.setRequestPayload(requestpayload);
+		newuser.setRequest_Date_Time(null);
+		newuser.setDivoc_Certificate_Id(null);
+		newuser.setIs_Revoked(null);
+		newuser.setIs_Suspended(null);
+		newuser.setSuspended_Till(null);
+		newuser.setRevoked_On(null);
+		newuser.setSuspended_On(null);
 		newuser.setTransactionId(bookTable.getTransactionId());
 		user1Dao.save(newuser);
 		return newuser;
 	}
-	
-//	public DAOUser save(BookTable bookTable) {
-//		DAOUser newUser = new DAOUser();
-//		
-//		System.out.println(bookTable.getTransactionId());
-//		newUser.setTransactionId(bookTable.getTransactionId());
-//		System.out.println(newUser);
-//		return userDao.save(newUser);
-//	}
-	
+
 }
-	
+//	public RequestTable saveUser(BookTable bookTable) {
+//		RequestTable newuser = new RequestTable();
+//		newuser.setTransactionId(bookTable.getTransactionId());
+//		user1Dao.save(newuser);
+//		return newuser;
+//	}

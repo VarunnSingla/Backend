@@ -19,146 +19,135 @@ public class RequestTable {
 		@Column
 		private String name;
 		@Column
-		private String dob;
+		private String RequestPayload;
 		@Column
-		private String registrationId;
-		@Column 
-		private String gender;
-		@Column 
-		private String registrationCouncil;
-		@Column 
-		private String latestQualification;
-		@Column 
-		private String university;
-		@Column 
-		private String degreeYear;
+		private String Status;
 		@Column
-		private String systemOfMedicine;
+		private String Request_Date_Time;
+		@Column
+		private String Divoc_Certificate_Id;
+		@Column
+		private String Is_Revoked;
+		@Column
+		private String Is_Suspended;
+		@Column
+		private String Suspended_Till;
+		@Column
+		private String Revoked_On;
+		@Column
+		private String Suspended_On;
 		
-		@Column
-		private String registrationDate;
-		
-		@Column
-		private String registrationExpiry;
-		
-		@Column
-		private String issuer;
-		@Column
-		private String issuanceDate;
-		@Column 
 		private String transactionId;
 		
 		public RequestTable() {
 			
 		}
-		
-		public RequestTable(int id, String name, String dob, String registrationId, String gender,
-				String registrationCouncil, String latestQualification, String university, String degreeYear,
-				String systemOfMedicine, String registrationDate, String registrationExpiry, String issuer,
-				String issuanceDate, String transactionId) {
+				
+		public RequestTable(int id, String name, String requestPayload, String status, String request_Date_Time,
+				String divoc_Certificate_Id, String is_Revoked, String is_Suspended, String suspended_Till,
+				String revoked_On, String suspended_On, String transactionId) {
 			this.id = id;
 			this.name = name;
-			this.dob = dob;
-			this.registrationId = registrationId;
-			this.gender = gender;
-			this.registrationCouncil = registrationCouncil;
-			this.latestQualification = latestQualification;
-			this.university = university;
-			this.degreeYear = degreeYear;
-			this.systemOfMedicine = systemOfMedicine;
-			this.registrationDate = registrationDate;
-			this.registrationExpiry = registrationExpiry;
-			this.issuer = issuer;
-			this.issuanceDate = issuanceDate;
+			this.RequestPayload = requestPayload;
+			this.Status = status;
+			this.Request_Date_Time = request_Date_Time;
+			this.Divoc_Certificate_Id = divoc_Certificate_Id;
+			this.Is_Revoked = is_Revoked;
+			this.Is_Suspended = is_Suspended;
+			this.Suspended_Till = suspended_Till;
+			this.Revoked_On = revoked_On;
+			this.Suspended_On = suspended_On;
 			this.transactionId = transactionId;
 		}
-		
+
 		public int getId() {
 			return id;
 		}
-		
+
 		public void setId(int id) {
 			this.id = id;
 		}
+
 		public String getName() {
 			return name;
 		}
+
 		public void setName(String name) {
 			this.name = name;
 		}
-		public String getDob() {
-			return dob;
+
+		public String getRequestPayload() {
+			return RequestPayload;
 		}
-		public void setDob(String dob) {
-			this.dob = dob;
+
+		public void setRequestPayload(String requestPayload) {
+			this.RequestPayload = requestPayload;
 		}
-		public String getRegistrationId() {
-			return registrationId;
+
+		public String getStatus() {
+			return Status;
 		}
-		public void setRegistrationId(String registrationId) {
-			this.registrationId = registrationId;
+
+		public void setStatus(String status) {
+			this.Status = status;
 		}
-		public String getGender() {
-			return gender;
+
+		public String getRequest_Date_Time() {
+			return Request_Date_Time;
 		}
-		public void setGender(String gender) {
-			this.gender = gender;
+
+		public void setRequest_Date_Time(String request_Date_Time) {
+			this.Request_Date_Time = request_Date_Time;
 		}
-		public String getRegistrationCouncil() {
-			return registrationCouncil;
+
+		public String getDivoc_Certificate_Id() {
+			return Divoc_Certificate_Id;
 		}
-		public void setRegistrationCouncil(String registrationCouncil) {
-			this.registrationCouncil = registrationCouncil;
+
+		public void setDivoc_Certificate_Id(String divoc_Certificate_Id) {
+			this.Divoc_Certificate_Id = divoc_Certificate_Id;
 		}
-		public String getLatestQualification() {
-			return latestQualification;
+
+		public String getIs_Revoked() {
+			return Is_Revoked;
 		}
-		public void setLatestQualification(String latestQualification) {
-			this.latestQualification = latestQualification;
+
+		public void setIs_Revoked(String is_Revoked) {
+			this.Is_Revoked = is_Revoked;
 		}
-		public String getUniversity() {
-			return university;
+
+		public String getIs_Suspended() {
+			return Is_Suspended;
 		}
-		public void setUniversity(String university) {
-			this.university = university;
+
+		public void setIs_Suspended(String is_Suspended) {
+			this.Is_Suspended = is_Suspended;
 		}
-		public String getDegreeYear() {
-			return degreeYear;
+
+		public String getSuspended_Till() {
+			return Suspended_Till;
 		}
-		public void setDegreeYear(String degreeYear) {
-			this.degreeYear = degreeYear;
+
+		public void setSuspended_Till(String suspended_Till) {
+			this.Suspended_Till = suspended_Till;
 		}
-		public String getSystemOfMedicine() {
-			return systemOfMedicine;
+
+		public String getRevoked_On() {
+			return Revoked_On;
 		}
-		public void setSystemOfMedicine(String systemOfMedicine) {
-			this.systemOfMedicine = systemOfMedicine;
+
+		public void setRevoked_On(String revoked_On) {
+			this.Revoked_On = revoked_On;
 		}
-		public String getRegistrationDate() {
-			return registrationDate;
+
+		public String getSuspended_On() {
+			return Suspended_On;
 		}
-		public void setRegistrationDate(String registrationDate) {
-			this.registrationDate = registrationDate;
+
+		public void setSuspended_On(String suspended_On) {
+			this.Suspended_On = suspended_On;
 		}
-		public String getRegistrationExpiry() {
-			return registrationExpiry;
-		}
-		public void setRegistrationExpiry(String registrationExpiry) {
-			this.registrationExpiry = registrationExpiry;
-		}
-		public String getIssuer() {
-			return issuer;
-		}
-		public void setIssuer(String issuer) {
-			this.issuer = issuer;
-		}
-		public String getIssuanceDate() {
-			return issuanceDate;
-		}
-		public void setIssuanceDate(String issuanceDate) {
-			this.issuanceDate = issuanceDate;
-		}
-		
+
 		public String getTransactionId() {
 			return transactionId;
 		}
@@ -166,6 +155,6 @@ public class RequestTable {
 		public void setTransactionId(String transactionId) {
 			this.transactionId = transactionId;
 		}
-		
+
 	
 }
