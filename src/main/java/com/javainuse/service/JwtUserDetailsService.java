@@ -1,6 +1,7 @@
 package com.javainuse.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -48,7 +49,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return userDao.save(newUser);
 	}
 
-	public RequestTable saveUser(BookTable bookTable, String requestpayload) {
+	public RequestTable saveUser(BookTable bookTable, String requestpayload, String SchemaName) {
 		RequestTable newuser = new RequestTable();
 //		newuser.setRequestPayload(bookTable.getRequestPayload());
 		newuser.setName(null);
@@ -62,10 +63,26 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newuser.setRevoked_On(null);
 		newuser.setSuspended_On(null);
 		newuser.setTransactionId(bookTable.getTransactionId());
+		newuser.setSchemaName(SchemaName);
 		user1Dao.save(newuser);
 		return newuser;
 	}
+	
+//	@Override
+//	public RequestTable fetchBySchemaName(String SchemaName) {
+//		return user1Dao.fetchBySchemaName(SchemaName 
+//	}
 
+//	public List<RequestTable> getListCertify(String schemaName) {
+////		RequestTable newuser = new RequestTable();
+//		List<RequestTable> newuser = user1Dao.findbySchemaName(schemaName);
+//		if(newuser == null) {
+//			throw new UsernameNotFoundException("User not Found with Schema Name" + schemaName);
+//		}
+//		user1Dao.saveAll(newuser);
+//		return newuser;
+//
+//	}
 }
 //	public RequestTable saveUser(BookTable bookTable) {
 //		RequestTable newuser = new RequestTable();

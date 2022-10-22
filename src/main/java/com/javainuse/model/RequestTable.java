@@ -39,13 +39,16 @@ public class RequestTable {
 		
 		private String transactionId;
 		
+		@Column (name = "SchemaName")
+		private String SchemaName;
+		
 		public RequestTable() {
 			
 		}
 				
 		public RequestTable(int id, String name, String requestPayload, String status, String request_Date_Time,
 				String divoc_Certificate_Id, String is_Revoked, String is_Suspended, String suspended_Till,
-				String revoked_On, String suspended_On, String transactionId) {
+				String revoked_On, String suspended_On, String transactionId,String SchemaName) {
 			this.id = id;
 			this.name = name;
 			this.RequestPayload = requestPayload;
@@ -58,6 +61,7 @@ public class RequestTable {
 			this.Revoked_On = revoked_On;
 			this.Suspended_On = suspended_On;
 			this.transactionId = transactionId;
+			this.SchemaName = SchemaName;
 		}
 
 		public int getId() {
@@ -154,6 +158,13 @@ public class RequestTable {
 
 		public void setTransactionId(String transactionId) {
 			this.transactionId = transactionId;
+		}
+		public String getSchemaName() {
+			return SchemaName;
+		}
+
+		public void setSchemaName(String schemaName) {
+			this.SchemaName = schemaName;
 		}
 
 	

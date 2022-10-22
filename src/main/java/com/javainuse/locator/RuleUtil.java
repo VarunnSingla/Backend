@@ -49,7 +49,9 @@ public class RuleUtil {
 	@Value("${jwt.DivocToken}")
 	private String divocToken;
 
-	public String getCertify(Book book) {
+	public String getCertify(Book book , String SchemaName) {
+		String a = baseUrl+SchemaName;
+		System.out.println(a);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", "Bearer "
@@ -89,7 +91,7 @@ public class RuleUtil {
 		}
 				System.out.println(response);
 
-		jwtUserDetailsService.saveUser(bookTable,requestPayload);
+		jwtUserDetailsService.saveUser(bookTable,requestPayload,SchemaName);
 
 		return transact;
 	}

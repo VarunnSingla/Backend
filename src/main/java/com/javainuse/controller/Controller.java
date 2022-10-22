@@ -23,11 +23,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 	import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.javainuse.dao.User1Dao;
 import com.javainuse.locator.RuleUtil;
 //import com.websparrow.locator.RuleUtil;
 import com.javainuse.model.Book;
@@ -46,11 +48,23 @@ public class Controller {
 
 	@Autowired
 	private RuleUtil ruleUtil;
+	
+	@Autowired
+	private User1Dao user1Dao;
+	
+	@Autowired
+	private JwtUserDetailsService userDetailsService;
 
-	@PostMapping("/certify")
-	public String getCertificate(@RequestBody Book book) {
-		return ruleUtil.getCertify(book);
+	@PostMapping("/certify/{SchemaName}")
+	public String getCertificate(@RequestBody Book book ,@PathVariable String SchemaName) {
+		return ruleUtil.getCertify(book,SchemaName);
 	}
+	
+//	@GetMapping("/listCertificate/{SchemaName}")
+//	public ResponseEntity<RequestTable> getListCertificate(@PathVariable String SchemaName) {
+//		RequestTable requestTable = userDetailsService.fetchBySchemaName(SchemaName);
+//	    return new ResponseEntity<RequestTable>(user1Dao.findbySchemaName(SchemaName),HttpStatus.OK);
+//	}
 
 
 }
