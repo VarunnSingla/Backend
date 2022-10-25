@@ -39,31 +39,9 @@ public class RequestTable {
 		
 		private String transactionId;
 		
-		@Column (name = "SchemaName")
-		private String SchemaName;
+		@Column (name = "Schemaname")
+		private String schemaname;
 		
-		public RequestTable() {
-			
-		}
-				
-		public RequestTable(int id, String name, String requestPayload, String status, String request_Date_Time,
-				String divoc_Certificate_Id, String is_Revoked, String is_Suspended, String suspended_Till,
-				String revoked_On, String suspended_On, String transactionId,String SchemaName) {
-			this.id = id;
-			this.name = name;
-			this.RequestPayload = requestPayload;
-			this.Status = status;
-			this.Request_Date_Time = request_Date_Time;
-			this.Divoc_Certificate_Id = divoc_Certificate_Id;
-			this.Is_Revoked = is_Revoked;
-			this.Is_Suspended = is_Suspended;
-			this.Suspended_Till = suspended_Till;
-			this.Revoked_On = revoked_On;
-			this.Suspended_On = suspended_On;
-			this.transactionId = transactionId;
-			this.SchemaName = SchemaName;
-		}
-
 		public int getId() {
 			return id;
 		}
@@ -159,12 +137,12 @@ public class RequestTable {
 		public void setTransactionId(String transactionId) {
 			this.transactionId = transactionId;
 		}
-		public String getSchemaName() {
-			return SchemaName;
+		public String getSchemaname() {
+			return schemaname;
 		}
 
-		public void setSchemaName(String schemaName) {
-			this.SchemaName = schemaName;
+		public void setSchemaname(String schemaname) {
+			this.schemaname = schemaname;
 		}
 
 	

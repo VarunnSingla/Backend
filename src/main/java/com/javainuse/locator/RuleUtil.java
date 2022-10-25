@@ -49,9 +49,10 @@ public class RuleUtil {
 	@Value("${jwt.DivocToken}")
 	private String divocToken;
 
-	public String getCertify(Book book , String SchemaName) {
-		String a = baseUrl+SchemaName;
-		System.out.println(a);
+	public String getCertify(Book book , String schemaname) {
+		
+		String CertifyUrl = baseUrl+schemaname;
+		System.out.println(CertifyUrl);
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		headers.set("Authorization", "Bearer "
@@ -72,7 +73,7 @@ public class RuleUtil {
 
 //		if we use String instead of BookTable then we got in the form of JSON
 		ResponseEntity<BookTable> response = restTemplate.exchange(
-				baseUrl, 
+				CertifyUrl, 
 				HttpMethod.POST, entity,BookTable.class);
 
 		System.out.println(response);
@@ -91,7 +92,7 @@ public class RuleUtil {
 		}
 				System.out.println(response);
 
-		jwtUserDetailsService.saveUser(bookTable,requestPayload,SchemaName);
+		jwtUserDetailsService.saveUser(bookTable,requestPayload,schemaname);
 
 		return transact;
 	}

@@ -13,7 +13,6 @@ import org.springframework.data.repository.CrudRepository;
 	@Repository
 	public interface User1Dao extends CrudRepository<RequestTable, Integer> {
 
-//		RequestTable findbySchemaName(String SchemaName);
-
+		public List<RequestTable> findBySchemaname(String schemaname);
 	}
 	

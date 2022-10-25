@@ -2,6 +2,7 @@ package com.javainuse.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -49,7 +50,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		return userDao.save(newUser);
 	}
 
-	public RequestTable saveUser(BookTable bookTable, String requestpayload, String SchemaName) {
+	public RequestTable saveUser(BookTable bookTable, String requestpayload, String schemaname) {
 		RequestTable newuser = new RequestTable();
 //		newuser.setRequestPayload(bookTable.getRequestPayload());
 		newuser.setName(null);
@@ -63,14 +64,21 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newuser.setRevoked_On(null);
 		newuser.setSuspended_On(null);
 		newuser.setTransactionId(bookTable.getTransactionId());
-		newuser.setSchemaName(SchemaName);
+		newuser.setSchemaname(schemaname);
 		user1Dao.save(newuser);
 		return newuser;
 	}
 	
-//	@Override
-//	public RequestTable fetchBySchemaName(String SchemaName) {
-//		return user1Dao.fetchBySchemaName(SchemaName 
+	public List<RequestTable> fetchBySchemaname(String schemaname) {
+		System.out.println(schemaname);
+		List<RequestTable> requestTable = user1Dao.findBySchemaname(schemaname);
+		System.out.println(requestTable);
+		return requestTable;
+				}
+
+//	public List<RequestTable> fetchBySchemaName(int SchemaName) {
+//		System.out.println(SchemaName);
+//		return user1Dao.findBySchemaName(SchemaName);
 //	}
 
 //	public List<RequestTable> getListCertify(String schemaName) {

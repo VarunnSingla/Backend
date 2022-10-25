@@ -55,15 +55,24 @@ public class Controller {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
-	@PostMapping("/certify/{SchemaName}")
-	public String getCertificate(@RequestBody Book book ,@PathVariable String SchemaName) {
-		return ruleUtil.getCertify(book,SchemaName);
+	@PostMapping("/certify/{Schemaname}")
+	public String getCertificate(@RequestBody Book book ,@PathVariable String Schemaname) {
+		return ruleUtil.getCertify(book,Schemaname);
 	}
 	
-//	@GetMapping("/listCertificate/{SchemaName}")
-//	public ResponseEntity<RequestTable> getListCertificate(@PathVariable String SchemaName) {
-//		RequestTable requestTable = userDetailsService.fetchBySchemaName(SchemaName);
-//	    return new ResponseEntity<RequestTable>(user1Dao.findbySchemaName(SchemaName),HttpStatus.OK);
+	@GetMapping("/listCertificate/{Schemaname_1}")
+	public ResponseEntity<List<RequestTable>> getListCertificate(@PathVariable String Schemaname_1) {
+		System.out.print(Schemaname_1);
+		List<RequestTable> requestTable = userDetailsService.fetchBySchemaname(Schemaname_1);
+	    return new ResponseEntity<List<RequestTable>>(requestTable,HttpStatus.OK);
+	}
+	
+	
+	
+	
+//	@RequestMapping("/listCertificate/{SchemaName}")
+//	public List<RequestTable> getListCertificate(@PathVariable int SchemaName) {
+//		return userDetailsService.getListCertificate(SchemaName);
 //	}
 
 
