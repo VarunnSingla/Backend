@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 	import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -29,6 +30,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.javainuse.dao.User1Dao;
 import com.javainuse.locator.RuleUtil;
 //import com.websparrow.locator.RuleUtil;
@@ -36,6 +38,7 @@ import com.javainuse.model.Book;
 import com.javainuse.model.BookTable;
 import com.javainuse.model.DAOUser;
 import com.javainuse.model.RequestTable;
+import com.javainuse.model.TransactionDTO;
 import com.javainuse.service.JwtUserDetailsService;
 
 import ch.qos.logback.core.net.SyslogOutputStream;
@@ -54,6 +57,18 @@ public class Controller {
 	
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
+	
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	@Value("${jwt.DivocToken}")
+	private String divocToken;
+	
+	public TransactionDTO transactionDTO;
+	
+	@Autowired 
+	private ObjectMapper objectMapper;
+
 
 	@PostMapping("/certify/{Schemaname}")
 	public String getCertificate(@RequestBody Book book ,@PathVariable String Schemaname) {
@@ -67,16 +82,49 @@ public class Controller {
 	    return new ResponseEntity<List<RequestTable>>(requestTable,HttpStatus.OK);
 	}
 	
+	@GetMapping("/download/{transactionId}")
+	public ResponseEntity<TransactionDTO> getconsumeAPI(@PathVariable String transactionId) {
+		
+		String DbStatus =  userDetailsService.fetchCertificateStatus(transactionId);
+		System.out.println(DbStatus);
+		if(DbStatus != "SUCCESSFULL") {
+			return ruleUtil.getDownload(transactionId);
+		}
+		
+		else
+			System.out.println("CertifiacteId Alraedy generated");
+		return null;
+			
+	}
 	
-	
-	
-//	@RequestMapping("/listCertificate/{SchemaName}")
-//	public List<RequestTable> getListCertificate(@PathVariable int SchemaName) {
-//		return userDetailsService.getListCertificate(SchemaName);
+//	@GetMapping("/downloadCertificate/certificateId/{CertId}")
+//	public ResponseEntity<byte[]> getcertificatedownload(@PathVariable String CertId){
+//		
+//		String  divocCertificateId = userDetailsService.fetchCertificateid(CertId);
+//		if(CertId == divocCertificateId) {
+//			return ruleUtil.generateDivocCertificate(CertId);
+//		}
+//		return null;
+//	
 //	}
-
-
+	@GetMapping("/downloadCertificate/certificateId/{CertId}")
+	public Object downloadFile(@PathVariable String CertId) throws IOException {
+		String  divocCertificateId = userDetailsService.fetchCertificateid(CertId);
+		if(CertId == divocCertificateId) {
+			return ruleUtil.generateDivocCertificate(CertId);
+		}
+		return divocCertificateId;
+		
+	}
+		
+	
+	// downloadCertifiate/certificateid/{CertId}
+	// check in databse if certid exists nad status successfull
+	// if yes -> download certificate and send the response
+	
+	@GetMapping("/downloadCertificate/{CertId}")
+	public ResponseEntity<byte[]> getCertificateHeadCall(@PathVariable String CertId) {
+		return ruleUtil.generateDivocCertificate(CertId);
+	}
+		
 }
-
-
-

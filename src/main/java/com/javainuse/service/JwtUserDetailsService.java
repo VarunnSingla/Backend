@@ -57,7 +57,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		newuser.setStatus(null);
 		newuser.setRequestPayload(requestpayload);
 		newuser.setRequest_Date_Time(null);
-		newuser.setDivoc_Certificate_Id(null);
+		newuser.setDivocCertificateId(null);
 		newuser.setIs_Revoked(null);
 		newuser.setIs_Suspended(null);
 		newuser.setSuspended_Till(null);
@@ -75,26 +75,67 @@ public class JwtUserDetailsService implements UserDetailsService {
 		System.out.println(requestTable);
 		return requestTable;
 				}
+	
+	public RequestTable saveCertificateId(String CertId , String transact) {
+		System.out.println(CertId);
+		System.out.println(transact);
+		RequestTable requestTable = user1Dao.findByTransactionId(transact);
+		System.out.println(requestTable);
+        if(requestTable != null) {
+            requestTable.setDivocCertificateId(CertId); 
+            requestTable.setStatus("SUCCESSFULL");
+        }
+  
+        return user1Dao.save(requestTable);
+    }
 
-//	public List<RequestTable> fetchBySchemaName(int SchemaName) {
-//		System.out.println(SchemaName);
-//		return user1Dao.findBySchemaName(SchemaName);
-//	}
-
-//	public List<RequestTable> getListCertify(String schemaName) {
-////		RequestTable newuser = new RequestTable();
-//		List<RequestTable> newuser = user1Dao.findbySchemaName(schemaName);
-//		if(newuser == null) {
-//			throw new UsernameNotFoundException("User not Found with Schema Name" + schemaName);
-//		}
-//		user1Dao.saveAll(newuser);
-//		return newuser;
-//
-//	}
+//    public Optional<RequestTable> getbyTransactionId(String transact){
+//        RequestTable requestTable = user1Dao.findByTransactionId(transact);
+//        return Optional.ofNullable(requestTable);
+//    }
+		
+	
+	public String fetchCertificateStatus(String transactionId) {
+		System.out.println(transactionId);
+        String a = null;
+        String b = null;
+		RequestTable requestTable = user1Dao.findByTransactionId(transactionId);
+		System.out.println(requestTable);
+        if(requestTable != null) {
+        	a = requestTable.getStatus();
+        	b= requestTable.getTransactionId();
+        }
+        System.out.println(a);
+        System.out.println(b);
+        return a;
+	}
+	
+	public String fetchCertificateid(String CertId) {
+		System.out.println(CertId);
+        String a = null;
+		RequestTable requestTable = user1Dao.findByDivocCertificateId(CertId);
+		System.out.println(requestTable);
+        if(requestTable != null) {
+        	if(requestTable.getStatus() =="SUCCESSFULL")
+        	a = requestTable.getDivocCertificateId();
+        }
+        System.out.println(a);
+        return a;
+	}
+	
+	
+	
+	
 }
-//	public RequestTable saveUser(BookTable bookTable) {
-//		RequestTable newuser = new RequestTable();
-//		newuser.setTransactionId(bookTable.getTransactionId());
-//		user1Dao.save(newuser);
-//		return newuser;
-//	}
+        
+//        public String getDivocCertificateId(String transact) {
+//    		String b = null;
+//    		System.out.println(transact);
+//    		RequestTable requestTable = user1Dao.findByTransactionId(transact);
+//    		System.out.println(requestTable);
+//            if(requestTable != null) {
+//               b =  requestTable.getDivoc_Certificate_Id();
+//            }
+//            return b;
+//            
+//        }

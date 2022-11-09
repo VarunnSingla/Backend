@@ -14,5 +14,9 @@ import org.springframework.data.repository.CrudRepository;
 	public interface User1Dao extends CrudRepository<RequestTable, Integer> {
 
 		public List<RequestTable> findBySchemaname(String schemaname);
+
+		public RequestTable findByTransactionId(String transact);
+		
+		public RequestTable findByDivocCertificateId(String CertId);
 	}
 	
