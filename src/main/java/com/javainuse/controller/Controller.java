@@ -21,7 +21,8 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 	import org.springframework.web.bind.annotation.PathVariable;
 	import org.springframework.web.bind.annotation.PostMapping;
-	import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,7 +38,9 @@ import com.javainuse.locator.RuleUtil;
 import com.javainuse.model.Book;
 import com.javainuse.model.BookTable;
 import com.javainuse.model.DAOUser;
+import com.javainuse.model.HealthprofDTO;
 import com.javainuse.model.RequestTable;
+import com.javainuse.model.RevokeDTO;
 import com.javainuse.model.TransactionDTO;
 import com.javainuse.service.JwtUserDetailsService;
 
@@ -69,12 +72,13 @@ public class Controller {
 	@Autowired 
 	private ObjectMapper objectMapper;
 
-
+	
 	@PostMapping("/certify/{Schemaname}")
-	public String getCertificate(@RequestBody Book book ,@PathVariable String Schemaname) {
+	public ResponseEntity<BookTable> getCertificate(@RequestBody Book book ,@PathVariable String Schemaname) {
 		return ruleUtil.getCertify(book,Schemaname);
 	}
 	
+	//all details will be shown by schemaname
 	@GetMapping("/listCertificate/{Schemaname_1}")
 	public ResponseEntity<List<RequestTable>> getListCertificate(@PathVariable String Schemaname_1) {
 		System.out.print(Schemaname_1);
@@ -82,6 +86,7 @@ public class Controller {
 	    return new ResponseEntity<List<RequestTable>>(requestTable,HttpStatus.OK);
 	}
 	
+	// generate CertId from transactId 
 	@GetMapping("/download/{transactionId}")
 	public ResponseEntity<TransactionDTO> getconsumeAPI(@PathVariable String transactionId) {
 		
@@ -90,30 +95,25 @@ public class Controller {
 		if(DbStatus != "SUCCESSFULL") {
 			return ruleUtil.getDownload(transactionId);
 		}
-		
 		else
 			System.out.println("CertifiacteId Alraedy generated");
 		return null;
 			
 	}
 	
-//	@GetMapping("/downloadCertificate/certificateId/{CertId}")
-//	public ResponseEntity<byte[]> getcertificatedownload(@PathVariable String CertId){
-//		
-//		String  divocCertificateId = userDetailsService.fetchCertificateid(CertId);
-//		if(CertId == divocCertificateId) {
-//			return ruleUtil.generateDivocCertificate(CertId);
-//		}
-//		return null;
-//	
-//	}
-	@GetMapping("/downloadCertificate/certificateId/{CertId}")
-	public Object downloadFile(@PathVariable String CertId) throws IOException {
-		String  divocCertificateId = userDetailsService.fetchCertificateid(CertId);
-		if(CertId == divocCertificateId) {
-			return ruleUtil.generateDivocCertificate(CertId);
+	//download certificate by direct certid
+	@GetMapping("/downloadCertificate/certificateId/{divocCertificateid}")
+	public ResponseEntity<byte[]> downloadFile(@PathVariable String divocCertificateid) {
+		String  CertId = userDetailsService.fetchCertificateid(divocCertificateid);
+		String  dbSchemaname = userDetailsService.fetchSchemaname(divocCertificateid);
+		System.out.println(CertId);
+		System.out.println(dbSchemaname);
+
+		if(CertId.equalsIgnoreCase(divocCertificateid)) {
+			return ruleUtil.generateDivocCertificate(dbSchemaname,divocCertificateid);
 		}
-		return divocCertificateId;
+//		return divocCertificateId;
+		return null;
 		
 	}
 		
@@ -122,9 +122,22 @@ public class Controller {
 	// check in databse if certid exists nad status successfull
 	// if yes -> download certificate and send the response
 	
-	@GetMapping("/downloadCertificate/{CertId}")
-	public ResponseEntity<byte[]> getCertificateHeadCall(@PathVariable String CertId) {
-		return ruleUtil.generateDivocCertificate(CertId);
+	//certificate download
+	@GetMapping("/downloadCertificate/{schemaname}/{CertId}")
+	public ResponseEntity<byte[]> getCertificateHeadCall(@PathVariable String schemaname,@PathVariable String CertId) {
+		return ruleUtil.generateDivocCertificate(schemaname,CertId);
 	}
+	
+	//update the details
+	@PutMapping("/updatecertify/{Schemaname}")
+	public ResponseEntity<BookTable> updateCertificate(@RequestBody HealthprofDTO healthprofDTO ,@PathVariable String Schemaname) {
+		return ruleUtil.getCertificateupdate(healthprofDTO,Schemaname);
+	}
+	
+	@PostMapping("/revoke")
+	public ResponseEntity<Object> getRevokedService(@RequestBody RevokeDTO revokeDTO) {
+		return ruleUtil.getRevokeDone(revokeDTO);
+	}
+			
 		
 }

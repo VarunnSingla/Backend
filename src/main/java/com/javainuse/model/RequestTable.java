@@ -24,8 +24,8 @@ public class RequestTable {
 		private String Status;
 		@Column
 		private String Request_Date_Time;
-		@Column
-		private String divocCertificateId;
+		
+		private String divocCertificateid;
 		@Column
 		private String Is_Revoked;
 		@Column
@@ -82,12 +82,12 @@ public class RequestTable {
 			this.Request_Date_Time = request_Date_Time;
 		}
 
-		public String getDivocCertificateId() {
-			return divocCertificateId;
+		public String getDivocCertificateid() {
+			return divocCertificateid;
 		}
 
-		public void setDivocCertificateId(String divocCertificateId) {
-			this.divocCertificateId = divocCertificateId;
+		public void setDivocCertificateid(String divocCertificateid) {
+			this.divocCertificateid = divocCertificateid;
 		}
 
 		public String getIs_Revoked() {

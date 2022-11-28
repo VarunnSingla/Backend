@@ -17,6 +17,6 @@ import org.springframework.data.repository.CrudRepository;
 
 		public RequestTable findByTransactionId(String transact);
 		
-		public RequestTable findByDivocCertificateId(String CertId);
+		public RequestTable findByDivocCertificateid(String Certid);
 	}
 	

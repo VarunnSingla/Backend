@@ -37,6 +37,8 @@ import java.util.Collections;
 
 import com.javainuse.model.Book;
 import com.javainuse.model.BookTable;
+import com.javainuse.model.HealthprofDTO;
+import com.javainuse.model.RevokeDTO;
 import com.javainuse.model.TransactionDTO;
 
 @Component
@@ -58,7 +60,7 @@ public class RuleUtil {
 	@Value("${jwt.DivocToken}")
 	private String divocToken;
 
-	public String getCertify(Book book , String schemaname) {
+	public ResponseEntity<BookTable> getCertify(Book book , String schemaname) {
 		
 		String CertifyUrl = baseUrl+schemaname;
 		System.out.println(CertifyUrl);
@@ -103,7 +105,7 @@ public class RuleUtil {
 
 		jwtUserDetailsService.saveUser(bookTable,requestPayload,schemaname);
 
-		return transact;
+		return response;
 	}
 	
 	public ResponseEntity<TransactionDTO> getDownload(String transactionId) {
@@ -137,10 +139,9 @@ public class RuleUtil {
 		
 		System.out.println(CertId);
 
-		
 		String transact = transactionDTO.getTransactionId();
 		System.out.println(transact);
-		jwtUserDetailsService.saveCertificateId(CertId,transact);
+		jwtUserDetailsService.saveCertificateId(transactionDTO,transact);
 		
 //		transactionDTO.setCertificateId("SUCCESSFULL");
 //		transactionDTO.setStatus("SUCCESSFULL");
@@ -149,15 +150,15 @@ public class RuleUtil {
 	
 	}
 
-	public ResponseEntity<byte[]> generateDivocCertificate(String CertId) {
-		String url = "http://52.172.132.121/vc-certification/v1/certificate/NHAUIPCertificateSample/";
-		String CertUrl = url+CertId;
+	public ResponseEntity<byte[]> generateDivocCertificate(String schemaname,String divocCertificateid) {
+		String url = "http://52.172.132.121/vc-certification/v1/certificate/";
+		String CertUrl = url+schemaname+"/"+divocCertificateid;
 		System.out.println(CertUrl);
 	    HttpHeaders headers = new HttpHeaders();
 	    // , MediaType.APPLICATION_OCTET_STREAM
 	    headers.set("template-key", "html");
 	    headers.setAccept(Arrays.asList(MediaType.APPLICATION_PDF));
-//		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_OCTET_STREAM));
+        // headers.setAccept(Collections.singletonList(MediaType.APPLICATION_OCTET_STREAM));
 	    headers.set("Authorization", "Bearer "+divocToken);
 		HttpEntity<String> entity = new HttpEntity<>(headers);
 		System.out.println(entity);
@@ -167,6 +168,77 @@ public class RuleUtil {
 		byte[] content = response.getBody();
 
 		System.out.println(response);
+		return response;
+	}
+
+	public ResponseEntity<Object> getRevokeDone(RevokeDTO revokeDTO) {
+		String CertifyUrl = "http://52.172.132.121//vc-certification/v1/certificate/revoke";
+		System.out.println(CertifyUrl);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", "Bearer "
+				+divocToken);
+		System.out.println("payload" + revokeDTO.toString());
+		String requestPayload = null;
+		
+		HttpEntity<RevokeDTO> entity = new HttpEntity<>(revokeDTO, headers);
+		System.out.println(entity);
+
+//		if we use String instead of BookTable then we got in the form of JSON
+		ResponseEntity<Object> response = restTemplate.exchange(
+				CertifyUrl, 
+				HttpMethod.POST, entity,Object.class);
+
+		System.out.println(response);
+
+
+		return response;
+	}
+
+	public ResponseEntity<BookTable> getCertificateupdate(HealthprofDTO healthprofDTO, String schemaname) {
+		String CertifyUrl = "http://52.172.132.121//vc-certification/v1/certify/"+schemaname;
+		System.out.println(CertifyUrl);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		headers.set("Authorization", "Bearer "
+				+divocToken);
+		System.out.println("payload" + healthprofDTO.toString());
+		String requestPayload = null;
+
+		try {
+			requestPayload = objectMapper.writeValueAsString(healthprofDTO.toString());
+			System.out.println(requestPayload);
+		} catch (JsonProcessingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		HttpEntity<HealthprofDTO> entity = new HttpEntity<>(healthprofDTO, headers);
+		System.out.println(entity);
+
+//		if we use String instead of BookTable then we got in the form of JSON
+		ResponseEntity<BookTable> response = restTemplate.exchange(
+				CertifyUrl, 
+				HttpMethod.POST, entity,BookTable.class);
+
+		System.out.println(response);
+//		bookTable.setRequestPayload(requestPayload);
+
+		BookTable bookTable = response.getBody();
+		System.out.println(bookTable);
+		
+		String transact = null ;
+		try {
+			transact = objectMapper.writeValueAsString(bookTable.getTransactionId());
+			System.out.println(transact);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				System.out.println(response);
+
+		jwtUserDetailsService.saveUser(bookTable,requestPayload,schemaname);
+
 		return response;
 	}
 	
